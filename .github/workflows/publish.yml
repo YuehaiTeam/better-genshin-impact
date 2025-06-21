@@ -371,7 +371,7 @@ jobs:
   mirrorchyan_uploading:
     if: github.repository_owner == 'babalae' && contains(needs.validate.outputs.version, '-')
     needs: [validate, build_dist, build_installer]
-    runs-on: macos-latest
+    runs-on: windows-latest
     steps:
 
       - uses: actions/download-artifact@v4
@@ -397,6 +397,46 @@ jobs:
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
           os: win
           arch: x64
+      
+      - name: 📥 Download kachina-builder release
+        if: ${{ github.event.inputs.kachina-channel == 'release' }}
+        uses: robinraju/release-downloader@v1.8
+        with:
+          repository: "YuehaiTeam/kachina-installer"
+          latest: true
+          fileName: "kachina-builder.exe"
+      - name: 📥 Download kachina-builder dev
+        if: ${{ github.event.inputs.kachina-channel == 'dev' }}
+        uses: dawidd6/action-download-artifact@v8
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          repo: "YuehaiTeam/kachina-installer"
+          workflow: "build.yml"
+          name: artifact
+          branch: main
+          event: push
+          workflow_conclusion: success
+
+      - name: Embed Dotnet and VCRedist
+        shell: bash
+        run: |
+          # dotnet
+          VERSION_URL="https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0/latest.version"
+          VERSION=$(curl -fsSL "$VERSION_URL" | tr -d '\r\n')
+          if [ -z "$VERSION" ]; then
+              echo "Cannot get the latest version from $VERSION_URL"
+              exit 1
+          fi
+          INSTALLER_URL="https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0/windowsdesktop-runtime-${VERSION}-win-x64.exe"
+          OUTPUT="windowsdesktop-runtime-${VERSION}-win-x64.exe"
+          echo "Downloading Windows Desktop Runtime version $VERSION from $INSTALLER_URL"
+          curl -fSL -o "$OUTPUT" "$INSTALLER_URL"
+          # vcredist
+          echo "Downloading VCRedist"
+          curl -fSL -o "vc_redist.x64.exe" "https://aka.ms/vs/17/release/vc_redist.x64.exe"
+          # embed
+          echo "Embedding runtimes"
+          ./kachina-builder.exe append -o ./downloads/BetterGI_Install/BetterGI.Install.*.exe -f "$OUTPUT" -n "Microsoft.DotNet.DesktopRuntime.8" -f "vc_redist.x64.exe" -n "Microsoft.VCRedist.2015+.x64"
 
       - name: Upload Install.exe
         uses: MirrorChyan/uploading-action@v1
