@@ -407,7 +407,7 @@ jobs:
               echo "Cannot get the latest version from $VERSION_URL"
               exit 1
           fi
-          INSTALLER_URL="https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/8.0/windowsdesktop-runtime-${VERSION}-win-x64.exe"
+          INSTALLER_URL="https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/${VERSION}/windowsdesktop-runtime-${VERSION}-win-x64.exe"
           OUTPUT="windowsdesktop-runtime-${VERSION}-win-x64.exe"
           echo "Downloading Windows Desktop Runtime version $VERSION from $INSTALLER_URL"
           curl -fSL -o "$OUTPUT" "$INSTALLER_URL"
