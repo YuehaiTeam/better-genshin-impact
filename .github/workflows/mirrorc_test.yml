@@ -62,8 +62,7 @@ jobs:
         with:
           filetype: local
           mirrorchyan_rid: BGI
-          working-directory: downloads/BetterGI_7z/
-          filename: "BetterGI.zip"
+          filename: "downloads/BetterGI_7z/BetterGI.zip"
           version_name: ${{ needs.validate.outputs.version }}
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
           os: win
@@ -74,8 +73,7 @@ jobs:
         with:
           filetype: local
           mirrorchyan_rid: BGI
-          working-directory: downloads/BetterGI_Install/
-          filename: "BetterGI.Install.*.exe"
+          filename: "downloads/BetterGI_Install/BetterGI.Install.*.exe"
           version_name: ${{ needs.validate.outputs.version }}
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
 
