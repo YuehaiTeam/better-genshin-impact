@@ -417,6 +417,7 @@ jobs:
           # embed
           echo "Embedding runtimes"
           ./kachina-builder.exe append -o ./downloads/BetterGI_Install/BetterGI.Install.*.exe -f "$OUTPUT" -n "Microsoft.DotNet.DesktopRuntime.8" -f "vc_redist.x64.exe" -n "Microsoft.VCRedist.2015+.x64"
+          winget install -e --id GnuWin32.Zip
 
       - name: Extract 7z
         shell: bash
