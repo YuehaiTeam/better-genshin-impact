@@ -417,7 +417,6 @@ jobs:
           # embed
           echo "Embedding runtimes"
           ./kachina-builder.exe append -o ./downloads/BetterGI_Install/BetterGI.Install.*.exe -f "$OUTPUT" -n "Microsoft.DotNet.DesktopRuntime.8" -f "vc_redist.x64.exe" -n "Microsoft.VCRedist.2015+.x64"
-          winget install -e --id GnuWin32.Zip
 
       - name: Extract 7z
         shell: bash
@@ -425,6 +424,11 @@ jobs:
           cd downloads/BetterGI_7z
           7z x BetterGI_v*.7z -oun7z
           mv ../BetterGI_Metadata/metadata.json ./un7z/BetterGI/.metadata.json
+
+      - name: Install Envs for mirrorchyan action
+        shell: powershell
+        run: |
+          winget install -e --id GnuWin32.Zip
           
       - name: Upload Zip
         uses: MirrorChyan/uploading-action@v1
