@@ -15,15 +15,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 44522892072
 
-      - name: 📥 Download kachina-builder release
-        if: ${{ github.event.inputs.kachina-channel == 'release' }}
-        uses: robinraju/release-downloader@v1.8
-        with:
-          repository: "YuehaiTeam/kachina-installer"
-          latest: true
-          fileName: "kachina-builder.exe"
       - name: 📥 Download kachina-builder dev
-        if: ${{ github.event.inputs.kachina-channel == 'dev' }}
         uses: dawidd6/action-download-artifact@v8
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
