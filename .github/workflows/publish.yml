@@ -369,7 +369,6 @@ jobs:
             artifacts/BetterGI_Metadata/*.json
 
   mirrorchyan_uploading:
-    if: github.repository_owner == 'babalae' && contains(needs.validate.outputs.version, '-')
     needs: [validate, build_dist, build_installer]
     runs-on: windows-latest
     steps:
