@@ -53,6 +53,8 @@ jobs:
           7z x BetterGI_v*.7z -oun7z
           mv ../BetterGI_Metadata/metadata.json ./un7z/BetterGI/.metadata.json
           7z a -tzip BetterGI.zip un7z/BetterGI -mx=5 -mf=BCJ2 -r -y
+          ls .
+          ls ./un7z/BetterGI
           choco install wget --no-progress 
           
       - name: Upload Zip
