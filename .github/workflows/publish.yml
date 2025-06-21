@@ -428,7 +428,7 @@ jobs:
       - name: Install Envs for mirrorchyan action
         shell: powershell
         run: |
-          winget install -e --id GnuWin32.Zip
+          winget install  --accept-source-agreements -e --id GnuWin32.Zip
           
       - name: Upload Zip
         uses: MirrorChyan/uploading-action@v1
