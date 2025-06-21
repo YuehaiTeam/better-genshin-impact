@@ -378,25 +378,6 @@ jobs:
           path: downloads
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract 7z
-        shell: bash
-        run: |
-          cd downloads/BetterGI_7z
-          7z x BetterGI_v*.7z -oun7z
-          mv ../BetterGI_Metadata/metadata.json ./un7z/BetterGI/.metadata.json
-          
-      - name: Upload Zip
-        uses: MirrorChyan/uploading-action@v1
-        with:
-          filetype: local
-          mirrorchyan_rid: BGI
-          working-directory: downloads/BetterGI_7z/un7z/
-          pick_files: '["BetterGI"]'
-          version_name: ${{ needs.validate.outputs.version }}
-          upload_token: ${{ secrets.MirrorChyanUploadToken }}
-          os: win
-          arch: x64
-      
       - name: 📥 Download kachina-builder release
         if: ${{ github.event.inputs.kachina-channel == 'release' }}
         uses: robinraju/release-downloader@v1.8
@@ -437,6 +418,25 @@ jobs:
           echo "Embedding runtimes"
           ./kachina-builder.exe append -o ./downloads/BetterGI_Install/BetterGI.Install.*.exe -f "$OUTPUT" -n "Microsoft.DotNet.DesktopRuntime.8" -f "vc_redist.x64.exe" -n "Microsoft.VCRedist.2015+.x64"
 
+      - name: Extract 7z
+        shell: bash
+        run: |
+          cd downloads/BetterGI_7z
+          7z x BetterGI_v*.7z -oun7z
+          mv ../BetterGI_Metadata/metadata.json ./un7z/BetterGI/.metadata.json
+          
+      - name: Upload Zip
+        uses: MirrorChyan/uploading-action@v1
+        with:
+          filetype: local
+          mirrorchyan_rid: BGI
+          working-directory: downloads/BetterGI_7z/un7z/
+          pick_files: '["BetterGI"]'
+          version_name: ${{ needs.validate.outputs.version }}
+          upload_token: ${{ secrets.MirrorChyanUploadToken }}
+          os: win
+          arch: x64
+      
       - name: Upload Install.exe
         uses: MirrorChyan/uploading-action@v1
         with:
