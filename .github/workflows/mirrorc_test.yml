@@ -5,7 +5,6 @@ on:
 
 jobs:
   mirrorchyan_uploading:
-    needs: [validate, build_dist, build_installer]
     runs-on: windows-2025
     steps:
 
